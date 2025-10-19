@@ -1,40 +1,197 @@
 <html>
     <head>
+        <title>A1-G09T06-UOWID1,UOWID2</title>
         <style>
+            #part1_heading {
+                background-color: #deeaf6;
+                font-size: 110%;
+                padding: 10px;
+            }
 
+            #part1_table {
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                border-collapse: collapse;
+            }
+
+            #part1_td {
+                padding: 8px 12px;
+                text-align: left;
+
+            }
+            .part3 {
+                font-family: 'Times New Roman', Times, serif;
+                word-spacing: 2px;
+            
+            }
+
+            .part3
+            {
+                margin-top: 2px;
+                margin-bottom: 2px;
+            }
+
+            #part3_table {
+                margin-left: 25px;
+                margin-top: -20px;
+            }
+
+            #part3_td {
+                padding-right: 30px;
+            }
+
+            .input-box {
+                width: 240px;
+            }
         </style>
+        <script>
+        // We are putting the JavaScript in the head, so we use window.onload
+        window.onload = function() {
+            setCurrentDate();
+            
+            // Find field event to enable/disable replace field
+            var findField = document.getElementById('findText');
+            var replaceField = document.getElementById('replaceText');
+            findField.addEventListener('input', function() {
+                if (findField.value.trim() === '') {
+                    replaceField.disabled = true;
+                } else {
+                    replaceField.disabled = false;
+                }
+            });
+            // Initial state of replace field
+            replaceField.disabled = (findField.value.trim() === '');
+        };
+
+            function validateForm() {
+                var name = document.getElementById('name').value.trim();
+                var moduleCode = document.getElementById('moduleCode').value.trim();
+                var message = document.getElementById('message').value.trim();
+
+                var namePattern = /^[A-Za-z\s]+$/;
+                var modulePattern = /^[A-Z]{2}[4-8]{3}$/;
+
+                // Clear previous errors
+                document.getElementById('nameError').innerHTML = '';
+                document.getElementById('moduleCodeError').innerHTML = '';
+                document.getElementById('messageError').innerHTML = '';
+
+                var isValid = true;
+
+                // Validate name
+                if (name === '') {
+                    document.getElementById('nameError').innerHTML = 'Name cannot be blank';
+                    isValid = false;
+                
+                // Validate name
+                } else if (!namePattern.test(name)) {
+                    document.getElementById('nameError').innerHTML = 'Name should only contain letters and spaces';
+                    isValid = false;
+                }
+
+                // Validate module code (only if not empty)
+                if (moduleCode !== '' && !modulePattern.test(moduleCode)) {
+                    document.getElementById('moduleCodeError').innerHTML = 'Module code must be 2 uppercase letters followed by 3 digits (4-8)';
+                    isValid = false;
+                }
+
+                // Message cannot be empty validation 
+                if (message === '') {
+                    document.getElementById('messageError').innerHTML = 'Message cannot be blank';
+                    isValid = false;
+                }
+
+                return isValid;
+            }
+
+            // Date function formatting 
+            function setCurrentDate() {
+                var now = new Date();
+                var dayOfMonth = now.getDate();
+                var month = now.toLocaleString('default', { month: 'long' });
+                var year = now.getFullYear();
+                var dayOfWeek = now.toLocaleString('default', { weekday: 'long' });
+                var hours = now.getHours();
+                var minutes = now.getMinutes();
+                var ampm = hours >= 12 ? 'PM' : 'AM';
+                hours = hours % 12;
+                hours = hours ? hours : 12; // the hour '0' should be '12'
+                var timeString = hours + ':' + (minutes < 10 ? '0' + minutes : minutes) + ' ' + ampm;
+
+                var currentDateString = dayOfMonth + ' ' + month + ' ' + year + ' ' + dayOfWeek + ' ' + timeString;
+                document.getElementById('currentDate').value = currentDateString;
+            }
+
+            // Find and replace function 
+            function handleFindAndReplace() { 
+
+                var findText = document.getElementById('findText').value;
+                var replaceText = document.getElementById('replaceText').value;
+                var messageTextarea = document.getElementById('message');
+                var message = messageTextarea.value;
+
+                // Escape special characters in findText for regex
+                var escapedFindText = findText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                var regex = new RegExp(escapedFindText, 'g');
+                var newMessage = message.replace(regex, replaceText);
+                var count = (message.match(regex) || []).length;
+
+                // clear previous errors
+                document.getElementById('findError').innerHTML = '';
+
+                var isValid = true;
+
+                // If find text is empty and user presses Find and Replace button 
+                if (findText === '') {
+                    document.getElementById('findError').innerHTML = 'Find area is empty';
+                    isValid = false;
+                }
+                else if (messageTextarea.value = newMessage) {
+                document.getElementById('replaceCount').textContent = count + ' replacement(s) made.';
+                }
+                return isValid
+
+                
+            }
+            // Google translate function
+            function openGoogleTranslate() {
+                 
+            }
+
+        </script>
     </head>
     <body>
         <!-- Part 1 -->
+         <h1> Part 1: Table Information</h1>
         <section>
-            <table border="1">
+            <table border="1" id="part1_table">
                 <tr>
-                    <th colspan="3">CSIT128:Assignment 1</th>
-                    <th>Group GXT06</th>
+                    <th colspan="3" id="part1_heading">CSIT128: Assignment 1</th>
+                    <th id="part1_heading">Group GXT06</th>
                 </tr>
                 <tr>
-                    <td rowspan="4">Student Number / Name / Email</td>
+                    <td rowspan="4" style="width: 150px ;word-wrap: break-word; padding-left: 5px;">Student Number / Name / Email</td>
                 </tr>
                 <tr>
-                    <td>UOW ID 1</td>
-                    <td>Name 1</td>
-                    <td>Name1@something.com</td>
+                    <td id="part1_td" style="padding-right: 20px;">UOW ID 1</td>
+                    <td id="part1_td" style="padding-right: 50px;">Name 1</td>
+                    <td id="part1_td" style="padding-right: 50px;">Name1@something.com</td>
                 </tr>
                 <tr>
-                    <td>UOW ID 2</td>
-                    <td>Name 2</td>
-                    <td>Name2@something.com</td>
+                    <td id="part1_td">UOW ID 2</td>
+                    <td id="part1_td">Name 2</td>
+                    <td id="part1_td">Name2@something.com</td>
                 </tr>
                 <tr>
-                    <td>UOW ID 3</td>
-                    <td>Name 3</td>
-                    <td>Name3@something.com</td>
+                    <td id="part1_td">UOW ID 3</td>
+                    <td id="part1_td">Name 3</td>
+                    <td id="part1_td">Name3@something.com</td>
                 </tr>
             </table>
             <hr>
         </section>
 
         <!-- Part 2 -->
+         <h1>Part 2: Hello World programme in different languages</h1>
         <section>
             <ul>
                 <li><a href="#C++">C++</a></li>
@@ -45,40 +202,258 @@
             <hr>
         </section>
         
-        <!-- Part 2 -->
+        <!-- C++ Section-->
         <section>
             <h3 id="C++">C++</h3>
-            <img class="float-left" src="CPP.png" height="200" width="200" alt="cpp image">
-            <h4>
-                <pre>
-                <code>
-                    #include &lt;iostream&gt;
+            <table>
+                <tr>
+                    <td><img src="CPP.png" height="225" width="225" alt="cpp image"></td>
+                    <td>
+                        <pre>
+                            <code>
+        #include &lt;iostream&gt;
 
-                    void main( ) {
-                    cout &lt;&lt; &quot;Hello World!&quot; &lt;&lt; endl;
-                    }
-                </code>
-                </pre>
-            </h4>
+        void main( ) {
+            cout &lt;&lt; &quot;Hello World!&quot; &lt;&lt; endl;
+            }                        
+                            </code>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
             <hr>
         </section>
 
+        <!-- C# Section-->
         <section>
             <h3 id="C#">C#</h3>
-            <img src="CS.png" alt="csharp image">
+            <table>
+                <tr>
+                    <td><img src="CS.png" height="225" width="225" alt="csharp image"></td>
+                    <td>
+                        <pre>
+                            <code>
+        using System;
+
+        class Program
+        {
+                static void Main()
+                {
+                    Console.WriteLine("Hello World!");
+                }
+        }
+                            </code>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
             <hr>
         </section>        
 
+        <!-- Python Section-->
         <section>
             <h3 id="Python">Python</h3>
-            <img src="Python.jpg" alt="python image">
+            <table>
+                <tr>
+                    <td><img src="Python.jpg" height="250" width="250" alt="python image"></td>
+                    <td>
+                        <pre>
+                            <code>
+        # Hello World program in Python
+
+        print("Hello World!")
+                            </code>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
             <hr>
         </section>
 
+        <!-- HTML Section-->
         <section>
             <h3 id="html">HTML</h3>
-            <img src="HTML.png" alt="html image">
+            <table>
+                <tr>
+                    <td><img src="HTML.png" alt="html image"></td>
+                    <td>
+                        <pre>
+                            <code>
+        &lt;html&gt;
+        &lt;head&gt; 
+        &lt;title&gt;Hello&lt;/title&gt;      
+        &lt;/head&gt;
+        &lt;body&gt;
+        Hello World!
+        &lt;/body&gt;
+        &lt;/html&gt;                        
+                            </code>
+                        </pre>
+                    </td>
+                </tr>
+            </table>
             <hr>
         </section>
+
+        <!-- Part 3 -->
+        <h1>Part 3: University policies and services</h1>
+        <!-- Plagiarism Section -->
+        <section>
+            <pre class="part3">
+<b>PLAGIARISM</b>
+    Plagiarism is treated seriously. If we suspect any word is copied, all students involved are likely to receive zero
+    for the entire assignment. Plagiarism has led to students being expelled from the University.
+    Please click <a href="https://www.uow.edu.au/student/support-services/academic-skills/online-resources/referencing-and-citing/plagiarism/">here</a> to read more about Plagiarism.
+            </pre>
+        <!-- Academic Consideration Section -->
+            <pre class="part3">
+<b>ACADEMIC CONSIDERATION</b>
+    We know that life isn't perfect and there may be a time when you can't hand in an assignment on time, or make it
+    to class or an exam. If you find yourself in a situation like this, you may be eligible for Academmic Consideration.
+    Academic Consideration is designed to help students when they are sick injured, or where a serious, unplanned
+    situation has occured that has affected their ability to study.
+    Please click <a href="https://www.uow.edu.au/student/admin/academic-consideration/">here</a> to read more about Academic Consideration.
+            </pre>
+        <!-- Student Support Section -->
+            <pre class="part3">
+<b>STUDENT SUPPORT ADVISERS</b>
+    If you have an issue or a problem that is affecting your study, then the Student Support Advisers may be able to
+    help. There are Student Support Advisers available to assist students who are studying at all UOW Campuses and 
+    in all UOW Faculties.
+    Please click <a href="https://www.uow.edu.au/student/support-services/">here</a> to read more about Student Support Advisers.
+
+    Student Support Adviser contact details for Faculty of Engineering and Information Sciences:
+            </pre>
+            <table border="1" id="part3_table">
+                <tr>
+                    <td id="part3_td">
+                        <b>Ann-Maree Smith</b><br>
+                        Bld 40:133, Wollongong<br>
+                        Campus<br>
+                        (02) 4221 4714 <br>
+                        Mon-Fri <br>
+                        ams@uow.edu.au <br>
+                    </td>
+                    <td id="part3_td">
+                        <b>Miltz Perez</b> <br>
+                            Bld 40:105, Wollongong <br>
+                            Campus <br>
+                            (02) 4221 3833 <br>
+                            Mon-Fri <br>
+                            mperez@uow.edu.au <br>
+                    </td>
+                </tr>
+            </table>
+            <br>
+        <!-- Disability Services Section -->
+         <pre class="part3">
+<b>DISABILITY SERVICES</b>
+       Disability Services provide advice and support for students with a disability or health condition. Our aim  is to
+       ensure students with a disability realise their full academic potential. We also provide support for those who are
+       the primary carers for those with a medical condition or disability.
+       Please click <a href="https://www.uow.edu.au/business-law/about/equity-diversity-inclusion/disability-resources/">here</a> to read more Disability Services.
+         </pre>
+         <hr>
+        </section>
+        
+        <!-- Part 4 -->
+         <h1>Part 4: Form</h1>
+            <table>
+                <form action="abc.php" method="get" onsubmit="return validateForm()">
+
+                <!-- Name Field -->
+                <tr>
+                    <td>Name:</td>
+                    <td>
+                        <input id="name" type="text" name="name" class="input-box">
+                    </td>
+                    <td>
+                        <span id="nameError" style="color:red;"></span>
+                    </td>
+                </tr>
+                <!-- Module Code Field -->
+                <tr>
+                    <td>Module Code:</td>
+                    <td>
+                        <input type="text" name="moduleCode" id="moduleCode" read>
+                    </td>
+                    <td>
+                        <span id="moduleCodeError" style="color: red;"></span>
+                    </td>              
+                </tr>
+                <!-- Current Field -->
+                <tr>
+                    <td>Current date:</td>
+                    <td>
+                        <input type="text" name="currentDate" id="currentDate" class="input-box" readonly>
+                    </td>
+                </tr>
+                <!-- Message Field -->
+                <tr>
+                    <td>Message:</td>
+                    <td>
+                        <textarea name="message" id="message" rows="5" cols="30">Hello 202509</textarea>
+                    </td>
+                    <td>
+                        <span id="messageError" style="color: red;"></span>
+                    </td>
+                </tr>
+                <!-- Find Field -->
+                <tr>
+                    <td>Find:</td>
+                    <td>
+                        <input type="text" id="findText">
+                    </td>
+                    <td>
+                        <span id="findError" style="color: red;"></span>
+                    </td>
+                </tr>
+                <!-- Replace Field -->
+                <tr>
+                    <td>Replace:</td>
+                    <td>
+                        <input type="text" id="replaceText">
+                    </td>
+                </tr>
+                <!-- Find and Replace Field -->
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="button" onclick="handleFindAndReplace()">Find and Replace</button>
+                        <span id="replaceCount"></span>
+                    </td>
+                </tr>
+                <!-- Source Language Field -->
+                <tr>
+                    <td>Source Language</td>
+                    <td>
+                        <input type="radio" id="english" name="sourceLang" value="en" checked>
+                        <label for="english">English</label>
+                        <input type="radio" id="malay" name="sourceLang" value="ms">
+                        <label for="malay">Malay</label>
+                    </td>
+                </tr>
+                <!-- Target Language -->
+                <tr>
+                    <td>Target Language</td>
+                    <td>
+                        <select name="targetLang" id="targetLang">
+                            <option value="zh-CN">Chinese</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <!-- Translate and Reset Buttons -->
+                <tr>
+                    <td></td>
+                    <td>
+                        <button type="submit">Translate</button>
+                        <button type="reset">Reset</button>
+                    </td>
+                </tr>
+                </form>
+            </table>
     </body>
 </html>

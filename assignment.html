@@ -47,6 +47,13 @@
         // We are putting the JavaScript in the head, so we use window.onload
         window.onload = function() {
             setCurrentDate();
+            // Form submission event
+            document.getElementById('part4Form').addEventListener('submit', function(event) {
+                event.preventDefault();
+                if (validateForm()) {
+                    openGoogleTranslate();
+                }
+            });
             
             // Find field event to enable/disable replace field
             var findField = document.getElementById('findText');
@@ -88,7 +95,7 @@
                     isValid = false;
                 }
 
-                // Validate module code (only if not empty)
+                // Validate module code (only if not empty), if not empty it must follow the pattern 
                 if (moduleCode !== '' && !modulePattern.test(moduleCode)) {
                     document.getElementById('moduleCodeError').innerHTML = 'Module code must be 2 uppercase letters followed by 3 digits (4-8)';
                     isValid = false;
@@ -154,8 +161,16 @@
             }
             // Google translate function
             function openGoogleTranslate() {
+                var messageText = document.getElementById('message').value;
+                var sourceLang = document.querySelector('input[name="sourceLang"]:checked').value;
+                var targetLang = document.getElementById('targetLang').value;
+
+                var encodedText = encodeURIComponent(messageText);
+                var url = `https://translate.google.com/?sl=${sourceLang}&tl=${targetLang}&text=${encodedText}`;
+                window.open(url, '_blank');
+        }
                  
-            }
+            
 
         </script>
     </head>
@@ -359,7 +374,7 @@
         <!-- Part 4 -->
          <h1>Part 4: Form</h1>
             <table>
-                <form action="abc.php" method="get" onsubmit="return validateForm()">
+                <form id="part4Form">
 
                 <!-- Name Field -->
                 <tr>
